@@ -3,4 +3,6 @@ project(BlackJack)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BlackJack main.cpp)
+add_executable(BlackJack main.cpp
+        misc.h
+        misc.cpp)
