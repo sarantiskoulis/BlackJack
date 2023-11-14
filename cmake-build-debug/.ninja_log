@@ -1,3 +1,21 @@
 # ninja log v5
 2	1255	7216662693199576	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
 1256	1406	7216662694681451	BlackJack.exe	4678fff4816f1db3
+40	1293	7216675691197460	CMakeFiles/BlackJack.dir/misc.cpp.obj	9f7aabb135def12
+50	1410	7216677710431636	CMakeFiles/BlackJack.dir/misc.cpp.obj	9f7aabb135def12
+2	1365	7216678528129396	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+2	1513	7216679263559619	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+1514	1668	7216679265075692	BlackJack.exe	e52b72f7400251ea
+2	1218	7216680273897864	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+1218	1362	7216680275262015	BlackJack.exe	e52b72f7400251ea
+2	1210	7216681208132042	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+1210	1356	7216681209655646	BlackJack.exe	e52b72f7400251ea
+2	1690	7216685970153430	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+33	1756	7216685970819056	CMakeFiles/BlackJack.dir/misc.cpp.obj	9f7aabb135def12
+1756	1906	7216685972291827	BlackJack.exe	e52b72f7400251ea
+3	1402	7216686297868393	CMakeFiles/BlackJack.dir/main.cpp.obj	994aca8ba089bd6a
+1402	1546	7216686299300365	BlackJack.exe	e52b72f7400251ea
+2	1334	7216687288398605	CMakeFiles/BlackJack.dir/misc.cpp.obj	9f7aabb135def12
+1335	1472	7216687289756371	BlackJack.exe	e52b72f7400251ea
+2	1324	7216687668375060	CMakeFiles/BlackJack.dir/misc.cpp.obj	9f7aabb135def12
+1325	1469	7216687669808733	BlackJack.exe	e52b72f7400251ea

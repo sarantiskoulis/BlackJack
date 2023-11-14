@@ -10,28 +10,22 @@
 #include "misc.h"
 
 using namespace std;
-class Holders {
-public:
-    std::vector<std::string> cards;
-    std::vector<int> values;
-    int points = 0;
-    int card_1 = 0;
-    int card_2 = 0;
-    int num_Ace = 0;
-    void AddPoint(int point, int card) {
-        points += point;
-        if (card == 1) {
-            card_1 = point;
-        }
-        else if (card == 2) {
-            card_2 = point;
-        }
-        if (point == 11) {
-            ++num_Ace;
-        }
-    }
-};
 
+
+
+int GetPoints(string card) {
+    string card_value = card.substr(0, card.size() - 1);
+    if (card_value == "J" || card_value == "Q" ||card_value == "K") {
+        return 10;
+    }
+    else if (card_value == "A") {
+        return 11;
+    }
+    else {
+        return std::stoi(card_value);
+    }
+
+}
 
 int BlackJackScore(vector<string>& deck, Holders& suit, int dealer_card) {
 
@@ -62,10 +56,11 @@ int BlackJackScore(vector<string>& deck, Holders& suit, int dealer_card) {
         if (suit.points >= 8) {
             action = HardTotal[suit.points - 8][dealer_card - 2];
         }
-
+        cout << "Action: " << action << endl;
         if (action == 1) {
             stand_bool = true;
         }
+
         else if (action == 2) {
             suit.cards.push_back(deck.front());
             suit.AddPoint(GetPoints(deck.front()), 0);

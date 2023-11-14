@@ -9,43 +9,43 @@
 
 using namespace std;
 
-class Holders {
-public:
-    std::vector<std::string> cards;
-    std::vector<int> values;
-    int points = 0;
-    int card_1 = 0;
-    int card_2 = 0;
-    int num_Ace = 0;
-    void AddPoint(int point, int card) {
-        points += point;
-        if (card == 1) {
-            card_1 = point;
-        }
-        else if (card == 2) {
-            card_2 = point;
-        }
+//class Holders {
+//public:
+//    std::vector<std::string> cards;
+//    std::vector<int> values;
+//    int points = 0;
+//    int card_1 = 0;
+//    int card_2 = 0;
+//    int num_Ace = 0;
+//    void AddPoint(int point, int card) {
+//        points += point;
+//        if (card == 1) {
+//            card_1 = point;
+//        }
+//        else if (card == 2) {
+//            card_2 = point;
+//        }
+//
+//        if (point == 11) {
+//            ++num_Ace;
+//        }
+//    }
+//};
 
-        if (point == 11) {
-            ++num_Ace;
-        }
-    }
-};
 
-
-int GetPoints(string card) {
-    string card_value = card.substr(0, card.size() - 1);
-    if (card_value == "J" || card_value == "Q" ||card_value == "K") {
-        return 10;
-    }
-    else if (card_value == "A") {
-        return 11;
-    }
-    else {
-        return std::stoi(card_value);
-    }
-
-}
+//int GetPoints(string card) {
+//    string card_value = card.substr(0, card.size() - 1);
+//    if (card_value == "J" || card_value == "Q" ||card_value == "K") {
+//        return 10;
+//    }
+//    else if (card_value == "A") {
+//        return 11;
+//    }
+//    else {
+//        return std::stoi(card_value);
+//    }
+//
+//}
 
 
 int main() {
@@ -80,18 +80,6 @@ int main() {
             {hit,hit,hit,double_down,double_down,hit,hit,hit,hit,hit},
             {hit,hit,hit,double_down,double_down,hit,hit,hit,hit,hit},
     };
-    int HardTotal[10][10] = {
-            {hit,hit,hit,hit,hit,hit,hit,hit,hit,hit},
-            {hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,hit,hit,hit,hit,hit},
-            {double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,hit,hit},
-            {double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit,double_down_hit},
-            {hit,hit,stand,stand,stand,hit,hit,hit,hit,hit},
-            {stand,stand,stand,stand,stand,hit,hit,hit,hit,hit},
-            {stand,stand,stand,stand,stand,hit,hit,hit,hit,hit},
-            {stand,stand,stand,stand,stand,hit,hit,hit,hit,hit},
-            {stand,stand,stand,stand,stand,hit,hit,hit,hit,hit},
-            {stand,stand,stand,stand,stand,stand,stand,stand,stand,stand},
-            };
 
 
 
@@ -140,8 +128,8 @@ int main() {
 //        int double_down = 3;
 //        int double_down_double = 4;
 //        int double_down_hit = 5;
-    player.card_1 = 10;
-    player.card_2 = 10;
+    player.card_1 = 8;
+    player.card_2 = 8;
     dealer.card_1 = 3;
     vector<Holders> Suits;
     bool cardHasSplit = false;
@@ -181,93 +169,15 @@ int main() {
         // PLAYER
     if (cardHasSplit) {
         for (auto& suit: Suits) {
-            bool stand_bool = false;
-
-            while (suit.points <= 17 && !stand_bool) {
-                //        int stand = 1;
-                //        int hit = 2;
-                //        int double_down_hit = 5;
-                int action = 0;
-                if (suit.points >= 8) {
-                    action = HardTotal[suit.points - 8][dealer.card_1 - 2];
-                }
-
-                if (action == 1) {
-                    stand_bool = true;
-                }
-                else if (action == 2) {
-                    suit.cards.push_back(deck.front());
-                    suit.AddPoint(GetPoints(deck.front()), 0);
-                    deck.erase(deck.begin());
-                    if (suit.points > 21 && suit.num_Ace > 0) {
-                        suit.points -= 10;
-                        suit.num_Ace -= 1;
-                    }
-                }
-                else if (action == 5) {
-                    suit.cards.push_back(deck.front());
-                    suit.AddPoint(GetPoints(deck.front()), 0);
-                    deck.erase(deck.begin());
-                    if (suit.points > 21 && suit.num_Ace > 0) {
-                        suit.points -= 10;
-                        suit.num_Ace -= 1;
-                    }
-                }
-                else  {
-                    suit.cards.push_back(deck.front());
-                    suit.AddPoint(GetPoints(deck.front()), 0);
-                    deck.erase(deck.begin());
-                    if (suit.points > 21 && suit.num_Ace > 0) {
-                        suit.points -= 10;
-                        suit.num_Ace -= 1;
-                    }
-                }
-
-            }
+            int points = BlackJackScore(deck,suit, dealer.card_1) ;
+            cout << "Points " << points << endl;
         }
-
     }
-//        bool stand_bool = false;
-//        while (player.points <= 17 && !stand_bool) {
-//            //        int stand = 1;
-//            //        int hit = 2;
-//            //        int double_down_hit = 5;
-//            int action = 0;
-//            if (player.points >= 8) {
-//                action = HardTotal[player.points - 8][dealer.card_1 - 2];
-//            }
-//            if (action == 1) {
-//                stand_bool = true;
-//            }
-//            else if (action == 2) {
-//                player.cards.push_back(deck.front());
-//                    player.points += GetPoints(deck.front(), player_Ace);
-//                    deck.erase(deck.begin());
-//                    if (player.points > 21 && player_Ace > 0) {
-//                        player.points -= 10;
-//                        player_Ace -= 1;
-//                    }
-//            }
-//            else if (action == 5) {
-//                player.cards.push_back(deck.front());
-//                player.points += GetPoints(deck.front(), player_Ace);
-//                deck.erase(deck.begin());
-//                if (player.points > 21 && player_Ace > 0) {
-//                    player.points -= 10;
-//                    player_Ace -= 1;
-//                }
-//            }
-//            else  {
-//                player.cards.push_back(deck.front());
-//                player.points += GetPoints(deck.front(), player_Ace);
-//                deck.erase(deck.begin());
-//                if (player.points > 21 && player_Ace > 0) {
-//                    player.points -= 10;
-//                    player_Ace -= 1;
-//                }
-//            }
-//
-//        }
+    else {
+        int points = BlackJackScore(deck,player, dealer.card_1);
+//        cout << "Points normal : " << points << endl;
+    }
+
 
         while (dealer.points < 17 ) {
             dealer.cards.push_back(deck.front());
@@ -279,7 +189,7 @@ int main() {
                 dealer.num_Ace -= 1;
             }
         }
-
+        cout<< "Dealer Points: " << dealer.points << endl;
 
         if (cardHasSplit) {
             for (auto& suit: Suits) {
