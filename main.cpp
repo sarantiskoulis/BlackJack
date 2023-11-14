@@ -81,47 +81,58 @@ int main() {
             };
 
 
-    std::vector<std::string> deck;
 
-    for (int i = 0; i < 13; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            deck.push_back(values[i] + suits[j]);
+
+    long int num_elems = 10'000'000;
+    long int wins = 0;
+    long int draws = 0;
+    long int loss = 0;
+
+    for (int b =0 ; b < num_elems; ++b){
+        std::vector<std::string> deck;
+        for (int i = 0; i < 13; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                deck.push_back(values[i] + suits[j]);
+            }
         }
-    }
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    shuffle (deck.begin(), deck.end(), std::default_random_engine(seed));
 
-    for (const auto& card : deck) {
-        std::cout << card << " ";
-    }
-    std::cout << std::endl << endl;
 
-    Holders dealer;
-    Holders player;
-    int dealer_Ace = 0;
-    int player_Ace = 0;
-    string dealer_face_card = deck.front();
-    // ASSIGN CARDS
-    dealer.cards.push_back(deck.front());
-    dealer.points += GetPoints(deck.front(),dealer_Ace);
-    dealer.card_1 += GetPoints(deck.front(),0);
-    deck.erase(deck.begin());
 
-    player.cards.push_back(deck.front());
-    player.points += GetPoints(deck.front(),player_Ace);
-    player.card_1 += GetPoints(deck.front(),0);
-    deck.erase(deck.begin());
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        shuffle(deck.begin(), deck.end(), std::default_random_engine(seed));
 
-    dealer.cards.push_back(deck.front());
-    dealer.points += GetPoints(deck.front(),dealer_Ace);
-    deck.erase(deck.begin());
+//        for (const auto& card : deck) {
+//            std::cout << card << " ";
+//        }
+//        std::cout << std::endl << endl;
 
-    player.cards.push_back(deck.front());
-    player.points += GetPoints(deck.front(),player_Ace);
-    player.card_2 += GetPoints(deck.front(),0);
-    deck.erase(deck.begin());
+        Holders dealer;
+        Holders player;
 
-    // SPLIT OR NOT
+        int dealer_Ace = 0;
+        int player_Ace = 0;
+        string dealer_face_card = deck.front();
+        // ASSIGN CARDS
+        dealer.cards.push_back(deck.front());
+        dealer.points += GetPoints(deck.front(), dealer_Ace);
+        dealer.card_1 += GetPoints(deck.front(), 0);
+        deck.erase(deck.begin());
+
+        player.cards.push_back(deck.front());
+        player.points += GetPoints(deck.front(), player_Ace);
+        player.card_1 += GetPoints(deck.front(), 0);
+        deck.erase(deck.begin());
+
+        dealer.cards.push_back(deck.front());
+        dealer.points += GetPoints(deck.front(), dealer_Ace);
+        deck.erase(deck.begin());
+
+        player.cards.push_back(deck.front());
+        player.points += GetPoints(deck.front(), player_Ace);
+        player.card_2 += GetPoints(deck.front(), 0);
+        deck.erase(deck.begin());
+
+        // SPLIT OR NOT
 //    player.card_1 = 2;
 //    player.card_2 = 2;
 //    dealer.card_1 = 7;
@@ -131,70 +142,81 @@ int main() {
 //
 
 
-
-
-
-
-
-
-    bool stand_bool = false;
-    while (player.points <= 17 && !stand_bool) {
-//        int stand = 1;
-//        int hit = 2;
-//        int double_down_hit = 5;
-
-        int action =  HardTotal[player.points - 8][dealer.card_1 - 2];
-        switch (action) {
-            case 1:
+        // PLAYER
+        bool stand_bool = false;
+        while (player.points <= 17 && !stand_bool) {
+            //        int stand = 1;
+            //        int hit = 2;
+            //        int double_down_hit = 5;
+            int action = 0;
+            if (player.points >= 8) {
+                action = HardTotal[player.points - 8][dealer.card_1 - 2];
+            }
+            if (action == 1) {
                 stand_bool = true;
-                break;
-            case 2:
+            }
+            else if (action == 2) {
                 player.cards.push_back(deck.front());
-                player.points += GetPoints(deck.front(),player_Ace);
+                    player.points += GetPoints(deck.front(), player_Ace);
+                    deck.erase(deck.begin());
+                    if (player.points > 21 && player_Ace > 0) {
+                        player.points -= 10;
+                        player_Ace -= 1;
+                    }
+            }
+            else if (action == 5) {
+                player.cards.push_back(deck.front());
+                player.points += GetPoints(deck.front(), player_Ace);
                 deck.erase(deck.begin());
                 if (player.points > 21 && player_Ace > 0) {
                     player.points -= 10;
                     player_Ace -= 1;
                 }
-                break;
-            case 5:
+            }
+            else  {
                 player.cards.push_back(deck.front());
-                player.points += GetPoints(deck.front(),player_Ace);
+                player.points += GetPoints(deck.front(), player_Ace);
                 deck.erase(deck.begin());
                 if (player.points > 21 && player_Ace > 0) {
                     player.points -= 10;
                     player_Ace -= 1;
                 }
-                break;
+            }
+
         }
-    }
 
+        while (dealer.points < 17 ) {
+            dealer.cards.push_back(deck.front());
+            dealer.points += GetPoints(deck.front(),dealer_Ace);
+            deck.erase(deck.begin());
 
-    while (dealer.points < 17 ) {
-        dealer.cards.push_back(deck.front());
-        dealer.points += GetPoints(deck.front(),dealer_Ace);
-        deck.erase(deck.begin());
-
-        if (dealer.points > 21 && player_Ace > 0) {
-            dealer.points -= 10;
-            dealer_Ace -= 1;
+            if (dealer.points > 21 && player_Ace > 0) {
+                dealer.points -= 10;
+                dealer_Ace -= 1;
+            }
         }
+//        cout << "p: " <<player.points << endl << dealer.points << endl;
+        if (player.points <= 21 && (dealer.points < player.points || dealer.points > 21) ) {
+//            cout << "W"<<endl;
+            ++wins;
+        }
+        else if ((player.points == dealer.points) || (player.points > 21 && dealer.points > 21) ) {
+//            cout << "D"<<endl;
+
+            ++draws;
+        }
+        else if (dealer.points <= 21 && (player.points < dealer.points || player.points > 21)) {
+//            cout << "l"<<endl;
+
+            ++loss;
+        }
+        else {
+            cout << "Something Else" << endl;
+        }
+
     }
-
-    cout << "Player" << endl;
-    for (const auto& card : player.cards) {
-        std::cout << card << " ";
-    }
-    cout << endl;
-    cout << player.points << endl;
-
-    cout << endl << "Dealer" << endl;
-    for (const auto& card : dealer.cards) {
-        std::cout << card << " ";
-    }
-    cout << endl;
-    cout << dealer.points << endl;
-
-
+    cout << "Wins: " << static_cast<double>(wins) / num_elems << endl;
+    cout << "Draws: "<<  static_cast<double>(draws) / num_elems << endl;
+    cout << "Loss: "<<  static_cast<double>(loss) / num_elems<< endl;
     return 0;
 }
